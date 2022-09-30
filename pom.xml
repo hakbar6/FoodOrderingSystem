@@ -60,7 +60,7 @@
         </dependencies>
     </dependencyManagement>
 
-    <dependencies>
+    <dependencies> <!-- harusnya ini nggk boleh :( tp yaudah la terlanjut !-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>

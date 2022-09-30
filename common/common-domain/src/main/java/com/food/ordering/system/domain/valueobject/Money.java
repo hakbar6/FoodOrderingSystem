@@ -11,6 +11,8 @@ import java.math.RoundingMode;
 public class Money {
     private final BigDecimal amount;
 
+    public static final Money ZERO = new Money(BigDecimal.ZERO);
+
     public Money(BigDecimal amount) {
         this.amount = amount;
     }
@@ -30,6 +32,8 @@ public class Money {
     public Money substractMoney (Money money) {
         return new Money(setScale(this.amount.subtract(money.getAmount())));
     }
+
+    public Money multiply (int input) { return new Money(setScale(this.amount.multiply(BigDecimal.valueOf(input)))); }
 
     private BigDecimal setScale(BigDecimal amount) {
         return amount.setScale(2, RoundingMode.HALF_EVEN);
