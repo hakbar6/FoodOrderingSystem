@@ -28,13 +28,35 @@ public class Order extends AggregateRoot<OrderID> {
         initializeOrderItems();
     }
 
+    private void initializeOrderItems() {
+        long itemId = 1;
+        for (OrderItem orderItem: items) {
+            orderItem.initializeOrderItem(getId(), new OrderItemId(itemId++));
+        }
+    }
+
     public void validateOrder() { // fungsi untuk validasi order
         validateInitializeOrder();
         validateTotalPrice();
         validateItemsPrice();
     }
 
-    private void validateItemsPrice() { // validate jumlah harga yang tercantum dengan jumlah pada order item
+    // digunakan untuk mengecek apakah sebelum melakukan inisialisasi order sudah tepat
+    private void validateInitializeOrder() {
+        if (getId() != null || orderStatus != null){ // sebelum dilakukan inisialisasi, id dan status harus null
+            throw new OrderDomainException("Order is not in correct state for initialization!");
+        }
+    }
+
+    private void validateTotalPrice() {
+        // digunakan untuk mengecek apakah total harga seluruh item tidak null/valid
+        if (this.price == null || !this.price.isGreaterThanZero()) {
+            throw new OrderDomainException("Total price must be greater than zero");
+        }
+    }
+
+    private void validateItemsPrice() {
+        // validate jumlah harga yang tercantum dengan jumlah seluruh order item
         Money subTotalItem = items.stream().map(orderItem -> {
             validateItemPrice(orderItem);
             return orderItem.getSubTotal();
@@ -48,29 +70,9 @@ public class Order extends AggregateRoot<OrderID> {
         }
     }
 
-    private void validateItemPrice(OrderItem item) {
+    private void validateItemPrice(OrderItem item) { // digunakan untuk mengecek apakah harga setiap item benar
         if (!item.isPriceValid()) {
             throw new OrderDomainException("Item Order Price is not valid!");
-        }
-    }
-
-    private void validateTotalPrice() {
-        if (this.price == null || !this.price.isGreaterThanZero()) {
-            throw new OrderDomainException("Total price must greater than zero");
-        }
-    }
-
-    // digunakan untuk mengecek apakah sebelum melakukan inisialisasi order sudah tepat
-    private void validateInitializeOrder() {
-        if (getId() != null || orderStatus != null){ // sebelum dilakukan inisialisasi, id dan status harus null
-            throw new OrderDomainException("Order is not in correct state for initialization!");
-        }
-    }
-
-    private void initializeOrderItems() {
-        long itemId = 1;
-        for (OrderItem orderItem: items) {
-            orderItem.initializeOrderItem(getId(), new OrderItemId(itemId++));
         }
     }
 
@@ -81,19 +83,27 @@ public class Order extends AggregateRoot<OrderID> {
         orderStatus = OrderStatus.PAID;
     }
 
-    public void approve() { // ketika pesan ke restaurant sukses setelah membayar
+    public void approve() { // ketika request ke restaurant sukses, setelah membayar
         if(orderStatus != OrderStatus.PAID) {
             throw new OrderDomainException("Order is not in correct state for approve operation!");
         }
         orderStatus = OrderStatus.APPROVED;
     }
 
-    public void initCancel(List<String> failureMessage) {
+    public void initCancel(List<String> failureMessage) { // ketika ingin membatalkan pesanan atau ditolak restaurant
         if(orderStatus != OrderStatus.PAID) {
             throw new OrderDomainException("Order is not in correct state for init cancel operation!");
         }
         addFailureMessage(failureMessage);
         orderStatus = OrderStatus.CANCELLING;
+    }
+
+    public void cancel(List<String> failureMessage) { // pesanan dibatalkan
+        if (orderStatus != OrderStatus.PENDING && orderStatus != OrderStatus.PAID) {
+            throw new OrderDomainException("Order is not in correct state for cancel operation!");
+        }
+        addFailureMessage(failureMessage);
+        orderStatus = OrderStatus.CANCELLED;
     }
 
     private void addFailureMessage(List<String> failureMessage) {
@@ -109,13 +119,6 @@ public class Order extends AggregateRoot<OrderID> {
         }
     }
 
-    public void cancel() {
-        if (orderStatus != OrderStatus.PENDING && orderStatus != OrderStatus.PAID) {
-            throw new OrderDomainException("Order is not in correct state for cancel operation!");
-        }
-        orderStatus = OrderStatus.CANCELLED;
-    }
-
     private Order(Builder builder) {
         super.setId(builder.orderID);
         customerId = builder.customerId;
@@ -128,7 +131,7 @@ public class Order extends AggregateRoot<OrderID> {
         failureMessage = builder.failureMessage;
     }
 
-    public static Builder newBuilder() {
+    public static Builder builder() {
         return new Builder();
     }
 

@@ -8,20 +8,20 @@ import com.food.ordering.system.order.service.domain.valueobjects.OrderItemId;
 public class OrderItem extends BaseEntity<OrderItemId> {
     private OrderID orderID;
 
-    private final Product product;
+    private final Product product; // property ini digunakan untuk mengecek apakah harga yang diinput user benar atau tidak
     private final Integer quantity;
-    private final Money price;
-    private final Money subTotal;
+    private final Money price; // harga yang diinput user
+    private final Money subTotal; // dikalkulasi otomatis = price * quantity
 
     void initializeOrderItem(OrderID orderID, OrderItemId orderItemId) {
         super.setId(orderItemId);
         this.orderID = orderID;
     }
 
-    boolean isPriceValid() {
-        return price.isGreaterThanZero() &&
-                price.equals(product.getPrice()) &&
-                subTotal.equals(price.multiply(quantity));
+    boolean isPriceValid() { // mengecek apakah input harga sudah benar
+        return price.isGreaterThanZero() && // harga diinput merupakan angka yang tidak nol
+                price.equals(product.getPrice()) && // harga yang tercantum dengan harga produk asli benar
+                subTotal.equals(price.multiply(quantity)); // apakah harga sub total benar atau tidak
     }
 
     private OrderItem(Builder builder) {

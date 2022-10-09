@@ -1,13 +1,15 @@
 package com.food.ordering.system.order.service.domain.entity.restaurantAggregate;
 
 import com.food.ordering.system.domain.entity.AggregateRoot;
+import com.food.ordering.system.domain.valueobject.ProductID;
 import com.food.ordering.system.domain.valueobject.RestaurantID;
 import com.food.ordering.system.order.service.domain.entity.orderProcessingAggregate.Product;
 
-import java.util.List;
+import java.util.Map;
+
 
 public class Restaurant extends AggregateRoot<RestaurantID> {
-    private final List<Product> products;
+    private final Map<ProductID, Product> products;
 
     private boolean active;
 
@@ -21,18 +23,18 @@ public class Restaurant extends AggregateRoot<RestaurantID> {
         return new Builder();
     }
 
-    public List<Product> getListProducts() {
-        return this.products;
+    public Map<ProductID, Product> getProducts() {
+        return products;
     }
 
     public boolean isActive() {
-        return this.active;
+        return active;
     }
 
 
     public static final class Builder {
         private RestaurantID restaurantID;
-        private List<Product> products;
+        private Map<ProductID, Product> products;
         private boolean active;
 
         private Builder() {
@@ -43,7 +45,7 @@ public class Restaurant extends AggregateRoot<RestaurantID> {
             return this;
         }
 
-        public Builder products(List<Product> val) {
+        public Builder products(Map<ProductID, Product> val) {
             products = val;
             return this;
         }
