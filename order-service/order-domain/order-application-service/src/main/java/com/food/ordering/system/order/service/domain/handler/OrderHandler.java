@@ -8,6 +8,7 @@ import com.food.ordering.system.order.service.domain.entity.restaurantAggregate.
 import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
 import com.food.ordering.system.order.service.domain.execption.OrderDomainException;
 import com.food.ordering.system.order.service.domain.mapper.OrderDataMapper;
+import com.food.ordering.system.order.service.domain.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher;
 import com.food.ordering.system.order.service.domain.ports.output.repository.CustomerRepository;
 import com.food.ordering.system.order.service.domain.ports.output.repository.OrderRepository;
 import com.food.ordering.system.order.service.domain.ports.output.repository.RestaurantRepository;
@@ -21,61 +22,23 @@ import java.util.Optional;
 @Slf4j
 @Component
 public class OrderHandler {
-    private final OrderDomainService orderDomainService;
-    private final OrderRepository orderRepository;
-    private final RestaurantRepository restaurantRepository;
-    private final CustomerRepository customerRepository;
+    private final OrderHelper orderHelper;
     private final OrderDataMapper mapper;
+    private final OrderCreatedPaymentRequestMessagePublisher createdPaymentRequestMessagePublisher;
 
     @Autowired
-    public OrderHandler(OrderDomainService orderDomainService,
-                        OrderRepository orderRepository,
-                        RestaurantRepository restaurantRepository,
-                        CustomerRepository customerRepository,
-                        OrderDataMapper mapper) {
-        this.orderDomainService = orderDomainService;
-        this.orderRepository = orderRepository;
-        this.restaurantRepository = restaurantRepository;
-        this.customerRepository = customerRepository;
+    public OrderHandler(OrderHelper orderHelper,
+                        OrderDataMapper mapper,
+                        OrderCreatedPaymentRequestMessagePublisher createdPaymentRequestMessagePublisher) {
+        this.orderHelper = orderHelper;
         this.mapper = mapper;
+        this.createdPaymentRequestMessagePublisher = createdPaymentRequestMessagePublisher;
     }
 
-    @Transactional
     public CreateOrderResponse createOrder(CreateOrderRequest request) {
-        checkCustomer(request);
-        Restaurant restaurant = checkAndSetRestaurantInformation(request);
-        Order order = mapper.createOrderRequestToOrderEntity(request);
-        OrderCreatedEvent orderCreatedEvent = orderDomainService.initializeAndValidateOrder(order,restaurant);
-        Order orderResult = saveOrder(order);
-        log.info("Order with ID {} is created and saved!",orderResult.getId());
-        return mapper.orderEntityToCreateOrderResponse(orderResult,"SUCCESS");
-    }
-
-    private void checkCustomer(CreateOrderRequest request) {
-        if (customerRepository.findCustomerById(request.getCustomerId()).isEmpty()) {
-            log.warn("Customer with the {} does not exist!", request.getCustomerId());
-            throw new OrderDomainException("Customer with the " +request.getCustomerId()+
-                    " does not exist!");
-        }
-    }
-
-    private Restaurant checkAndSetRestaurantInformation(CreateOrderRequest request) {
-        // bagian sini jujur masih bingung
-        Restaurant restaurant = mapper.createOrderRequestToRestaurant(request);
-        Optional<Restaurant> result = restaurantRepository.findRestaurantInformation(restaurant);
-        if (result.isEmpty()) {
-            throw new OrderDomainException("Could not find restaurant with restaurant ID : " +
-                    request.getRestaurantId());
-        }
-        return result.get();
-    }
-
-    private Order saveOrder(Order order) {
-        Order output = orderRepository.saveOrder(order);
-        if (output == null) {
-            throw new OrderDomainException("Could not save order!");
-        }
-        log.info("Order with ID {} saved!",output.getId()) ;
-        return output;
+        OrderCreatedEvent result = orderHelper.persistOrder(request);
+        log.info("Success Create Order with Order ID {}",result.getOrder().getId().getValue());
+        createdPaymentRequestMessagePublisher.publish(result);
+        return mapper.orderEntityToCreateOrderResponse(result.getOrder(),"SUCESS");
     }
 }
