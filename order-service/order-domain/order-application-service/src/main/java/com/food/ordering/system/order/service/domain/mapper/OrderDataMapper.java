@@ -8,6 +8,7 @@ import com.food.ordering.system.order.service.domain.dto.create.CreateOrderReque
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderResponse;
 import com.food.ordering.system.order.service.domain.dto.create.OrderAddress;
 import com.food.ordering.system.order.service.domain.dto.create.OrderItemRequest;
+import com.food.ordering.system.order.service.domain.dto.track.TrackOrderResponse;
 import com.food.ordering.system.order.service.domain.entity.orderProcessingAggregate.Order;
 import com.food.ordering.system.order.service.domain.entity.orderProcessingAggregate.OrderItem;
 import com.food.ordering.system.order.service.domain.entity.orderProcessingAggregate.Product;
@@ -47,6 +48,14 @@ public class OrderDataMapper {
                 .trackingId(order.getTrackingId().getValue())
                 .orderStatus(order.getOrderStatus())
                 .message(message)
+                .build();
+    }
+
+    public TrackOrderResponse orderEntityToTrackOrderResponse(Order order) {
+        return TrackOrderResponse.builder()
+                .orderTrackingId(order.getTrackingId().getValue())
+                .orderStatus(order.getOrderStatus())
+                .failureMessages(order.getFailureMessage())
                 .build();
     }
 

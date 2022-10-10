@@ -2,6 +2,7 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -28,7 +29,7 @@
       <module name="order-domain" options="" />
       <module name="order-domain-core" options="-parameters" />
       <module name="order-messaging" options="-parameters" />
-      <module name="order-service" options="-parameters" />
+      <module name="order-service" options="" />
     </option>
   </component>
 </project>
