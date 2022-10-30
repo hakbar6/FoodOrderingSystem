@@ -60,6 +60,7 @@ public class OrderApplicationServiceImplTest {
     private final UUID PRODUCT_ID_1 = UUID.fromString("453f6c26-5ece-494c-97f6-33da2e312939");
     private final UUID PRODUCT_ID_2 = UUID.fromString("6dd81cb3-7323-4c30-a15b-8d2a806ff4d0");
     private final UUID ORDER_ID = UUID.fromString("9356a42e-f2f8-4d99-aa78-4eb4d2506577");
+    private final Map<ProductID,Product> products = new HashMap<>();
     private final BigDecimal PRICE = new BigDecimal("200.00");
 
     @BeforeAll
@@ -144,7 +145,6 @@ public class OrderApplicationServiceImplTest {
         Product product_1 = new Product(new ProductID(PRODUCT_ID_1),"product-1",new Money(new BigDecimal("50.00")));
         Product product_2 = new Product(new ProductID(PRODUCT_ID_2),"product-2",new Money(new BigDecimal("50.00")));
 
-        Map<ProductID,Product> products = new HashMap<>();
         products.put(product_1.getId(),product_1);
         products.put(product_2.getId(),product_2);
 
@@ -179,4 +179,27 @@ public class OrderApplicationServiceImplTest {
         Assertions.assertEquals("Total Price 300.00 is not equal to order items total : 200.00",result.getMessage());
     }
 
+    @Test
+    public void givenValidCreateOrderRequest_withNotValidItemPriceInput_thenReturnError() {
+        OrderDomainException result = Assertions.assertThrows(OrderDomainException.class,
+                () -> orderApplicationService.createOrder(createOrderRequestWrongProductPrice));
+        Assertions.assertEquals("Item Order Price is not valid!",result.getMessage());
+    }
+
+    @Test
+    public void givenValidCreateOrderRequest_withPassiveRestaurant_thenReturnError() {
+        Restaurant restaurantResponse2 = Restaurant.builder() // mock, seolah-olah ambil dari db
+                .id(new RestaurantID(RESTAURANT_ID))
+                .active(false)
+                .products(products)
+                .build();
+
+        Mockito.when(restaurantRepository.findRestaurantInformation(
+                orderDataMapper.createOrderRequestToRestaurant(createOrderRequest)
+        )).thenReturn(Optional.of(restaurantResponse2));
+
+        OrderDomainException result = Assertions.assertThrows(OrderDomainException.class,
+                () -> orderApplicationService.createOrder(createOrderRequest));
+        Assertions.assertEquals("The restaurant with id 3e9b07db-c537-461b-a811-1d1787346d77 is currently not active!",result.getMessage());
+    }
 }

@@ -29,6 +29,7 @@ public class Order extends AggregateRoot<OrderID> {
     }
 
     private void initializeOrderItems() {
+        // fungsi untuk inisialisasi order items
         long itemId = 1;
         for (OrderItem orderItem: items) {
             orderItem.initializeOrderItem(getId(), new OrderItemId(itemId++));
@@ -41,7 +42,7 @@ public class Order extends AggregateRoot<OrderID> {
         validateItemsPrice();
     }
 
-    // digunakan untuk mengecek apakah sebelum melakukan inisialisasi order sudah tepat
+    // digunakan untuk mengecek apakah sebelum melakukan inisialisasi, object order sudah tepat
     private void validateInitializeOrder() {
         if (getId() != null || orderStatus != null){ // sebelum dilakukan inisialisasi, id dan status harus null
             throw new OrderDomainException("Order is not in correct state for initialization!");
