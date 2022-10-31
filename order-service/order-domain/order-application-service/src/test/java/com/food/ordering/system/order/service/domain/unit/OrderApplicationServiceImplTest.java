@@ -140,7 +140,7 @@ public class OrderApplicationServiceImplTest {
                 ))
                 .build();
         Customer customer = new Customer();
-        customer.setId(new CustomerId(CUSTOMER_ID));
+        customer.setId(new CustomerID(CUSTOMER_ID));
 
         Product product_1 = new Product(new ProductID(PRODUCT_ID_1),"product-1",new Money(new BigDecimal("50.00")));
         Product product_2 = new Product(new ProductID(PRODUCT_ID_2),"product-2",new Money(new BigDecimal("50.00")));

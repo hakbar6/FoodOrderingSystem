@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <option name="USE_RELEASE_OPTION" value="false" />
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
@@ -11,8 +12,8 @@
         <module name="kafka-model" />
         <module name="order-application-service" />
         <module name="kafka-consumer" />
-        <module name="common-domain" />
         <module name="kafka-producer" />
+        <module name="domain" />
         <module name="order-application" />
         <module name="kafka-config-data" />
         <module name="order-data-access" />
@@ -20,14 +21,11 @@
         <module name="order-container" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="kafkamodule" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="common" options="" />
-      <module name="common-domain" options="-parameters" />
+      <module name="domain" options="-parameters" />
       <module name="food-ordering-system" options="" />
       <module name="infrastructure" options="" />
       <module name="kafka" options="" />
@@ -35,7 +33,6 @@
       <module name="kafka-consumer" options="-parameters" />
       <module name="kafka-model" options="-parameters" />
       <module name="kafka-producer" options="-parameters" />
-      <module name="kafkamodule" options="" />
       <module name="order-application" options="-parameters" />
       <module name="order-application-service" options="-parameters" />
       <module name="order-container" options="-parameters" />
