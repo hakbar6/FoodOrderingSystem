@@ -61,7 +61,7 @@ public class OrderHelper {
     }
 
     private Restaurant checkAndSetRestaurantInformation(CreateOrderRequest request) {
-        // bagian sini jujur masih bingung
+        // bagian sini jujur masih bingung (baca note ya)
         Restaurant restaurant = mapper.createOrderRequestToRestaurant(request);
         Optional<Restaurant> result = restaurantRepository.findRestaurantInformation(restaurant);
         if (result.isEmpty()) {

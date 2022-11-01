@@ -26,7 +26,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="common" options="" />
       <module name="domain" options="-parameters" />
-      <module name="food-ordering-system" options="" />
+      <module name="food-ordering-system" options="-parameters" />
       <module name="infrastructure" options="" />
       <module name="kafka" options="" />
       <module name="kafka-config-data" options="-parameters" />
