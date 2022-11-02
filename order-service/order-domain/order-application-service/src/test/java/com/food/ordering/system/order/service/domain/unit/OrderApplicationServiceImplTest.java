@@ -62,6 +62,7 @@ public class OrderApplicationServiceImplTest {
     private final UUID ORDER_ID = UUID.fromString("9356a42e-f2f8-4d99-aa78-4eb4d2506577");
     private final Map<ProductID,Product> products = new HashMap<>();
     private final BigDecimal PRICE = new BigDecimal("200.00");
+    private Restaurant restaurantResponse;
 
     @BeforeAll
     public void init() {
@@ -148,7 +149,7 @@ public class OrderApplicationServiceImplTest {
         products.put(product_1.getId(),product_1);
         products.put(product_2.getId(),product_2);
 
-        Restaurant restaurantResponse = Restaurant.builder() // mock, seolah-olah ambil dari db
+        restaurantResponse = Restaurant.builder() // mock, seolah-olah ambil dari db
                 .id(new RestaurantID(RESTAURANT_ID))
                 .active(true)
                 .products(products)
@@ -158,14 +159,15 @@ public class OrderApplicationServiceImplTest {
         order.setId(new OrderID(ORDER_ID));
 
         Mockito.when(customerRepository.findCustomerById(CUSTOMER_ID)).thenReturn(Optional.of(customer));
-        Mockito.when(restaurantRepository.findRestaurantInformation(
-                orderDataMapper.createOrderRequestToRestaurant(createOrderRequest)
-        )).thenReturn(Optional.of(restaurantResponse));
         Mockito.when(orderRepository.saveOrder(any(Order.class))).thenReturn(order);
     }
 
     @Test
     public void givenValidCreateOrderRequest_withValidRestaurantAndValidProduct_thenReturnSuccess() {
+        Mockito.when(restaurantRepository.findRestaurantInformation(
+                orderDataMapper.createOrderRequestToRestaurant(createOrderRequest)
+        )).thenReturn(Optional.of(restaurantResponse));
+
         CreateOrderResponse result = orderApplicationService.createOrder(createOrderRequest);
         Assertions.assertEquals(result.getOrderStatus(),OrderStatus.PENDING);
         Assertions.assertEquals(result.getMessage(),"SUCCESS");
@@ -174,6 +176,10 @@ public class OrderApplicationServiceImplTest {
 
     @Test
     public void givenValidCreateOrderRequest_withNotValidPriceInput_thenReturnError() {
+        Mockito.when(restaurantRepository.findRestaurantInformation(
+                orderDataMapper.createOrderRequestToRestaurant(createOrderRequest)
+        )).thenReturn(Optional.of(restaurantResponse));
+
         OrderDomainException result = Assertions.assertThrows(OrderDomainException.class,
                 () -> orderApplicationService.createOrder(createOrderRequestWrongPrice));
         Assertions.assertEquals("Total Price 300.00 is not equal to order items total : 200.00",result.getMessage());
@@ -181,6 +187,10 @@ public class OrderApplicationServiceImplTest {
 
     @Test
     public void givenValidCreateOrderRequest_withNotValidItemPriceInput_thenReturnError() {
+        Mockito.when(restaurantRepository.findRestaurantInformation(
+                orderDataMapper.createOrderRequestToRestaurant(createOrderRequest)
+        )).thenReturn(Optional.of(restaurantResponse));
+
         OrderDomainException result = Assertions.assertThrows(OrderDomainException.class,
                 () -> orderApplicationService.createOrder(createOrderRequestWrongProductPrice));
         Assertions.assertEquals("Item Order Price is not valid!",result.getMessage());
