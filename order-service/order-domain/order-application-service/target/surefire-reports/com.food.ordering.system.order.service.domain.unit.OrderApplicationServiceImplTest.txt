@@ -1,12 +1,4 @@
 -------------------------------------------------------------------------------
 Test set: com.food.ordering.system.order.service.domain.unit.OrderApplicationServiceImplTest
 -------------------------------------------------------------------------------
-Tests run: 4, Failures: 1, Errors: 1, Skipped: 0, Time elapsed: 2.628 s <<< FAILURE! - in com.food.ordering.system.order.service.domain.unit.OrderApplicationServiceImplTest
-givenValidCreateOrderRequest_withNotValidItemPriceInput_thenReturnError  Time elapsed: 0.021 s  <<< FAILURE!
-org.opentest4j.AssertionFailedError: expected: <Item Order Price is not valid!> but was: <The restaurant with id 3e9b07db-c537-461b-a811-1d1787346d77 is currently not active!>
-	at com.food.ordering.system.order.service.domain.unit.OrderApplicationServiceImplTest.givenValidCreateOrderRequest_withNotValidItemPriceInput_thenReturnError(OrderApplicationServiceImplTest.java:186)
-
-givenValidCreateOrderRequest_withValidRestaurantAndValidProduct_thenReturnSuccess  Time elapsed: 0.005 s  <<< ERROR!
-com.food.ordering.system.order.service.domain.execption.OrderDomainException: The restaurant with id 3e9b07db-c537-461b-a811-1d1787346d77 is currently not active!
-	at com.food.ordering.system.order.service.domain.unit.OrderApplicationServiceImplTest.givenValidCreateOrderRequest_withValidRestaurantAndValidProduct_thenReturnSuccess(OrderApplicationServiceImplTest.java:169)
-
+Tests run: 4, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 2.895 s - in com.food.ordering.system.order.service.domain.unit.OrderApplicationServiceImplTest
