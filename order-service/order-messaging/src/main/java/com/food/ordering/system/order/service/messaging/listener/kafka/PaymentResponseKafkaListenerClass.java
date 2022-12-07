@@ -32,8 +32,8 @@ public class PaymentResponseKafkaListenerClass implements KafkaConsumer<PaymentR
     @Override
     @KafkaListener(id = "${kafka-consumer-config.payment-consumer-group-id}",
             topics = "${order-service.payment-response-topic-name}")
-    public void receive(@Payload  List<PaymentResponseAvroModel> messages,
-                        @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) List<String> keys,
+    public void receive(@Payload  List<PaymentResponseAvroModel> messages, //value berupa avro model, untuk menyimpan message data
+                        @Header(KafkaHeaders.RECEIVED_MESSAGE_KEY) List<String> keys, //berisi order id
                         @Header(KafkaHeaders.RECEIVED_PARTITION_ID) List<Integer> partitions,
                         @Header(KafkaHeaders.OFFSET) List<Long> offsets) {
         log.info("{} number of payment responses received with keys:{}, partitions:{} and offsets: {}",
