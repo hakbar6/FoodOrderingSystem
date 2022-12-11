@@ -1,0 +1,25 @@
+server:
+  port: 8184 #PORT
+
+spring:
+  jpa:
+    # DISABLE OPEN SESSION IN-VIEW
+    # BECAUSE CAN FORCE PERSISTENCE CONTEXT TO STAY OPEN SO THAT VIEW LAYER CAN TRIGGER PROXY INITIALIZATION
+    # KEEP DATABASE OPEN FOR A LONG TIME, CAN GIVE BAD EFFECTS TO DATABASE PERFORMANCE
+    open-in-view: false
+    show-sql: true # SHOW SQL ON LOG
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL9Dialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=customer&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
+    username: postgres
+    password: postgres # SEHARUSNYA DI ENCRYPT
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      platform: postgres
+      schema-locations: classpath:init-schema.sql
+      data-locations: classpath:init-data.sql
+      mode: always # SCHEMA AKAN TERUS DI-RUN SETIAP KALI SPRING BOOT DIJALANKAN

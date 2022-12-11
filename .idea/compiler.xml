@@ -9,17 +9,18 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="common-application" />
-        <module name="order-messaging" />
         <module name="kafka-model" />
+        <module name="customer-service" />
         <module name="order-application-service" />
         <module name="kafka-consumer" />
         <module name="kafka-producer" />
-        <module name="domain" />
-        <module name="order-application" />
         <module name="kafka-config-data" />
         <module name="order-data-access" />
-        <module name="order-domain-core" />
         <module name="order-container" />
+        <module name="order-messaging" />
+        <module name="domain" />
+        <module name="order-application" />
+        <module name="order-domain-core" />
       </profile>
     </annotationProcessing>
   </component>
@@ -27,9 +28,10 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="common" options="" />
       <module name="common-application" options="-parameters" />
+      <module name="customer-service" options="-parameters" />
       <module name="domain" options="-parameters" />
       <module name="food-ordering-system" options="" />
-      <module name="infrastructure" options="" />
+      <module name="infrastructure" options="-parameters" />
       <module name="kafka" options="" />
       <module name="kafka-config-data" options="-parameters" />
       <module name="kafka-consumer" options="-parameters" />

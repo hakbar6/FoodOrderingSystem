@@ -18,8 +18,7 @@ import java.util.stream.Collectors;
 public class RestaurantDataAccessMapper {
 
     public List<UUID> restaurantToRestaurantProducts(Restaurant restaurant) {
-        return restaurant.getProducts().entrySet().stream()
-                .map(Map.Entry::getValue)
+        return restaurant.getProducts().values().stream()
                 .map(product -> product.getId().getValue())
                 .collect(Collectors.toList());
     }
