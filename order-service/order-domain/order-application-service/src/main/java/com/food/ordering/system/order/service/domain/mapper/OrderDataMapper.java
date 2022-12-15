@@ -16,20 +16,25 @@ import com.food.ordering.system.order.service.domain.entity.restaurantAggregate.
 import com.food.ordering.system.order.service.domain.valueobjects.StreetAddress;
 import org.springframework.stereotype.Component;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
 public class OrderDataMapper {
     public Restaurant createOrderRequestToRestaurant(CreateOrderRequest request) {
+        Map<ProductID, Product> products = new HashMap<>();
+        for (OrderItemRequest item: request.getItems()) {
+            ProductID productID = new ProductID(item.getProductId());
+            Product product = new Product(productID, null, null);
+            products.put(productID,product);
+        }
+
         return Restaurant.builder()
                 .id(new RestaurantID(request.getRestaurantId()))
-                .products(
-                        request.getItems().stream().map(item -> new Product(
-                                new ProductID(item.getProductId()),null,null
-                        )).collect(Collectors.toMap(Product::getId,product -> product))
-                )
+                .products(products)
                 .build();
     }
 

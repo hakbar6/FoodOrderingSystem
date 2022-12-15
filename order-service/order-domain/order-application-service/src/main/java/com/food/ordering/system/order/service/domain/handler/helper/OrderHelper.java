@@ -2,7 +2,6 @@ package com.food.ordering.system.order.service.domain.handler.helper;
 
 import com.food.ordering.system.order.service.domain.OrderDomainService;
 import com.food.ordering.system.order.service.domain.dto.create.CreateOrderRequest;
-import com.food.ordering.system.order.service.domain.dto.create.CreateOrderResponse;
 import com.food.ordering.system.order.service.domain.entity.orderProcessingAggregate.Order;
 import com.food.ordering.system.order.service.domain.entity.restaurantAggregate.Restaurant;
 import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
@@ -13,7 +12,6 @@ import com.food.ordering.system.order.service.domain.ports.output.repository.Ord
 import com.food.ordering.system.order.service.domain.ports.output.repository.RestaurantRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +25,7 @@ public class OrderHelper {
     private final RestaurantRepository restaurantRepository;
     private final CustomerRepository customerRepository;
     private final OrderDataMapper mapper;
+
 
     @Autowired
     public OrderHelper(OrderDomainService orderDomainService,

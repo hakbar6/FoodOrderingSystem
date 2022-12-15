@@ -23,7 +23,7 @@ public class RestaurantDataAccessMapper {
                 .collect(Collectors.toList());
     }
 
-    public Restaurant restaurantEntityToRestaurant(List<RestaurantEntity> restaurantEntities) {
+    public Restaurant listRestaurantEntityToRestaurant(List<RestaurantEntity> restaurantEntities) {
         RestaurantEntity restaurantEntity =  restaurantEntities.stream().findFirst().orElseThrow(
                 () -> new RestaurantDataAccessException("Restaurant could not be found!")
         );

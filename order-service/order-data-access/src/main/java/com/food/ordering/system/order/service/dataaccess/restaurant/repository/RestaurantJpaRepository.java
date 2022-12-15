@@ -13,3 +13,10 @@ import java.util.UUID;
 public interface RestaurantJpaRepository extends JpaRepository<RestaurantEntity, RestaurantEntityId> {
     Optional<List<RestaurantEntity>> findById_RestaurantIdAndId_ProductIdIn(UUID restaurantId, List<UUID> productId);
 }
+
+
+/*
+Kita membuat pendekatan seperti diatas, alasannya karena hubungan one to many relationship antara
+restaurant dan juga product didefinisikan dengan membuat sebuah entitas baru pada database, yang memiliki
+foreign key yang merujuk kepada restaurant dan juga product
+ */

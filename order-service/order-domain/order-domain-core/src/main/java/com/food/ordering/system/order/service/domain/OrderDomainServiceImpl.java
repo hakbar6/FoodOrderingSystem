@@ -43,9 +43,7 @@ class OrderDomainServiceImpl implements OrderDomainService{
             Product currentProduct = orderItem.getProduct();
             Product restaurantProduct = restaurant.getProducts().get(currentProduct.getId());
             if (restaurantProduct != null){
-                currentProduct.updateWithConfirmedNameAndPrice(
-                        restaurantProduct.getName(),restaurantProduct.getPrice()
-                );
+                currentProduct.updateWithConfirmedNameAndPrice(restaurantProduct.getName(),restaurantProduct.getPrice());
             } else {
                 throw new OrderDomainException("Your order item is not correct!");
             }
