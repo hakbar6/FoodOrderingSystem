@@ -169,7 +169,7 @@ public class Order extends AggregateRoot<OrderID> {
     public List<String> getFailureMessage() {
         if (failureMessage == null) {
             failureMessage = new ArrayList<>();
-        };
+        }
         return failureMessage;
     }
 
