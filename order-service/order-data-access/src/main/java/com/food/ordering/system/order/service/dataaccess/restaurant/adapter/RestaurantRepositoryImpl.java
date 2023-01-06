@@ -22,11 +22,22 @@ public class RestaurantRepositoryImpl implements RestaurantRepository {
         this.mapper = mapper;
     }
 
+
+    /***
+     Kenapa query repository nya seperti itu?
+
+     Perlu kita ketahui bahwa relasi restaurant dan entity adalah one to many.
+     Pada kasus ini, DB kita menerapkan teknik pemetaan dengan membuat sebuah entity
+     baru yang memiliki foreign key ke restaurant dan juga product.
+
+     Jika penasaran, liat saja langsung ke db nya, dengan nama table restaurant_product pada schema
+     restaurant
+    ***/
     @Override
     public Optional<Restaurant> findRestaurantInformation(Restaurant restaurant) {
         return restaurantJpaRepository.findById_RestaurantIdAndId_ProductIdIn(
                 restaurant.getId().getValue(),
-                mapper.restaurantToRestaurantProducts(restaurant))
+                mapper.restaurantToRestaurantProductsId(restaurant))
                 .map(mapper::listRestaurantEntityToRestaurant);
     }
 }

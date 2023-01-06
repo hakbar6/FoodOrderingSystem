@@ -12,7 +12,6 @@
     <artifactId>payment-service</artifactId>
     <packaging>pom</packaging>
     <modules>
-        <module>payment-application</module>
         <module>payment-container</module>
         <module>payment-data-access</module>
         <module>payment-domain</module>

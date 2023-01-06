@@ -17,14 +17,14 @@ import java.util.List;
 
 @Slf4j
 @Component
-public class RestaurantApprovalResponseKafkaListenerClass implements KafkaConsumer<RestaurantApprovalResponseAvroModel> {
+public class RestaurantApprovalResponseKafkaListener implements KafkaConsumer<RestaurantApprovalResponseAvroModel> {
 
     private final RestaurantApprovalResponseMessageListener restaurantApprovalResponseMessageListener;
     private final OrderMessagingDataMapper messagingDataMapper;
 
     @Autowired
-    public RestaurantApprovalResponseKafkaListenerClass(RestaurantApprovalResponseMessageListener restaurantResponseMessageListener,
-                                                        OrderMessagingDataMapper messagingDataMapper) {
+    public RestaurantApprovalResponseKafkaListener(RestaurantApprovalResponseMessageListener restaurantResponseMessageListener,
+                                                   OrderMessagingDataMapper messagingDataMapper) {
         this.restaurantApprovalResponseMessageListener = restaurantResponseMessageListener;
         this.messagingDataMapper = messagingDataMapper;
     }

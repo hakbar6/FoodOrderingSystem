@@ -60,7 +60,6 @@ public class OrderHelper {
     }
 
     private Restaurant checkAndSetRestaurantInformation(CreateOrderRequest request) {
-        // bagian sini jujur masih bingung (baca note ya)
         Restaurant restaurant = mapper.createOrderRequestToRestaurant(request);
         Optional<Restaurant> result = restaurantRepository.findRestaurantInformation(restaurant);
         if (result.isEmpty()) {
@@ -70,12 +69,11 @@ public class OrderHelper {
         return result.get();
     }
 
-    private Order saveOrder(Order order) {
+    private void saveOrder(Order order) {
         Order output = orderRepository.saveOrder(order);
         if (output == null) {
             throw new OrderDomainException("Could not save order!");
         }
         log.info("Order with ID {} saved!",output.getId()) ;
-        return output;
     }
 }

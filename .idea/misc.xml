@@ -12,6 +12,7 @@
         <option value="$PROJECT_DIR$/common/common-domain/pom.xml" />
         <option value="$PROJECT_DIR$/infrastructure/kafkamodule/pom.xml" />
         <option value="$PROJECT_DIR$/kafka/pom.xml" />
+        <option value="$PROJECT_DIR$/payment-service/payment-application/pom.xml" />
       </set>
     </option>
   </component>
