@@ -62,7 +62,7 @@ public class Order extends AggregateRoot<OrderID> {
         Money subTotalItem = items.stream().map(orderItem -> {
             validateItemPrice(orderItem);
             return orderItem.getSubTotal();
-        }).reduce(Money.ZERO, Money::addMoney); // fungsi penjumlahan seluruh money yang ada di list item
+        }).reduce(Money.ZERO, Money::add); // fungsi penjumlahan seluruh money yang ada di list item
 
         if (!subTotalItem.equals(this.price)){
             throw new OrderDomainException(

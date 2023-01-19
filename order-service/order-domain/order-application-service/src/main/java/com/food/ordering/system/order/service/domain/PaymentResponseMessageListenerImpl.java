@@ -1,6 +1,6 @@
 package com.food.ordering.system.order.service.domain;
 
-import com.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
+import com.food.ordering.system.order.service.domain.dto.response.PaymentResponse;
 import com.food.ordering.system.order.service.domain.ports.input.message.listener.payment.PaymentResponseMessageListener;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

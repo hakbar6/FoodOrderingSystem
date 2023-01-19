@@ -2,8 +2,8 @@ package com.food.ordering.system.order.service.messaging.mapper;
 
 
 import com.food.ordering.system.kafka.order.avro.model.*;
-import com.food.ordering.system.order.service.domain.dto.message.PaymentResponse;
-import com.food.ordering.system.order.service.domain.dto.message.RestaurantApprovalResponse;
+import com.food.ordering.system.order.service.domain.dto.response.PaymentResponse;
+import com.food.ordering.system.order.service.domain.dto.response.RestaurantApprovalResponse;
 import com.food.ordering.system.order.service.domain.entity.orderProcessingAggregate.Order;
 import com.food.ordering.system.order.service.domain.event.OrderCancelledEvent;
 import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent;

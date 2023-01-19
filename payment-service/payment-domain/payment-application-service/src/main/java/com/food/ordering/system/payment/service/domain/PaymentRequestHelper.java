@@ -109,7 +109,6 @@ public class PaymentRequestHelper {
         }
     }
 
-
     private List<CreditHistory> getCreditHistories(CustomerID customerID) {
         Optional<List<CreditHistory>> creditHistories = creditHistoryRepository
                 .findByCustomerId(customerID.getValue());

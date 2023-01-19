@@ -37,7 +37,7 @@ class OrderDomainServiceImpl implements OrderDomainService{
     }
 
     private void setOrderProductInformation(Order order, Restaurant restaurant) {
-        // harga dan nama produk, kita ambil dari db
+        // harga dan nama produk kita ambil dari db
         // sehingga, pada object order yang nanti akan diinput oleh user, hanya id yang dicantumkan
         order.getItems().forEach(orderItem -> {
             Product currentProduct = orderItem.getProduct();

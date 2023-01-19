@@ -10,7 +10,7 @@ public class CreditEntry extends BaseEntity<CreditEntryId> {
     private Money totalCreditAmount;
 
     public void addCreditAmount(Money creditAmount) {
-        totalCreditAmount = totalCreditAmount.addMoney(creditAmount);
+        totalCreditAmount = totalCreditAmount.add(creditAmount);
     }
 
     public void subtractCreditAmount(Money creditAmount) {

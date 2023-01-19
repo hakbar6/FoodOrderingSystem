@@ -1,7 +1,7 @@
 package com.food.ordering.system.order.service.domain.handler.helper;
 
 import com.food.ordering.system.order.service.domain.OrderDomainService;
-import com.food.ordering.system.order.service.domain.dto.create.CreateOrderRequest;
+import com.food.ordering.system.order.service.domain.dto.request.CreateOrderRequest;
 import com.food.ordering.system.order.service.domain.entity.orderProcessingAggregate.Order;
 import com.food.ordering.system.order.service.domain.entity.restaurantAggregate.Restaurant;
 import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent;

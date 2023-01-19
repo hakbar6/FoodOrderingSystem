@@ -1,5 +1,6 @@
 com/food/ordering/system/order/service/domain/event/OrderCancelledEvent.class
 com/food/ordering/system/order/service/domain/OrderDomainService.class
+com/food/ordering/system/order/service/domain/event/OrderEvent.class
 com/food/ordering/system/order/service/domain/valueobjects/StreetAddress.class
 com/food/ordering/system/order/service/domain/entity/restaurantAggregate/Restaurant$Builder.class
 com/food/ordering/system/order/service/domain/entity/restaurantAggregate/Restaurant.class

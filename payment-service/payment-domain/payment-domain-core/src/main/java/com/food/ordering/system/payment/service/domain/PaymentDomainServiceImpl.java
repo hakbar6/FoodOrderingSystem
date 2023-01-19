@@ -92,12 +92,12 @@ public class PaymentDomainServiceImpl implements PaymentDomainService{
         Money totalDebit = creditHistories.stream()
                 .filter(creditHistory -> creditHistory.getTransactionType() == TransactionType.DEBIT)
                 .map(CreditHistory::getMoney)
-                .reduce(Money.ZERO, Money::addMoney);
+                .reduce(Money.ZERO, Money::add);
 
         Money totalCredit = creditHistories.stream()
                 .filter(creditHistory -> creditHistory.getTransactionType() == TransactionType.CREDIT)
                 .map(CreditHistory::getMoney)
-                .reduce(Money.ZERO, Money::addMoney);
+                .reduce(Money.ZERO, Money::add);
 
         if (totalDebit.isGreaterThan(totalCredit)) {
             log.error("Customer with ID {} doesn't have enough credit according to credit history", creditEntry.getCustomerID().getValue());

@@ -1,0 +1,69 @@
+server:
+  port: 8183
+
+logging:
+  level:
+    com.food.ordering.system: DEBUG
+
+restaurant-service:
+  restaurant-approval-request-topic-name: restaurant-approval-request
+  restaurant-approval-response-topic-name: restaurant-approval-response
+
+spring:
+  jpa:
+    # DISABLE OPEN SESSION IN-VIEW
+    # BECAUSE CAN FORCE PERSISTENCE CONTEXT TO STAY OPEN SO THAT VIEW LAYER CAN TRIGGER PROXY INITIALIZATION
+    # KEEP DATABASE OPEN FOR A LONG TIME, CAN GIVE BAD EFFECTS TO DATABASE PERFORMANCE
+    open-in-view: false
+    show-sql: true # SHOW SQL ON LOG
+    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQL9Dialect
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres?currentSchema=restaurant&binaryTransfer=true&reWriteBatchedInserts=true&stringtype=unspecified
+    username: postgres
+    password: postgres # SEHARUSNYA DI ENCRYPT
+    driver-class-name: org.postgresql.Driver
+  sql:
+    init:
+      platform: postgres
+      schema-locations: classpath:init-schema.sql
+      mode: always # SCHEMA AKAN TERUS DI-RUN SETIAP KALI SPRING BOOT DIJALANKAN
+      data-locations: classpath:init-data.sql
+
+kafka-config:
+  bootstrap-servers: localhost:19092, localhost:29092, localhost:39092
+  schema-registry-url-key: schema.registry.url
+  schema-registry-url: http://localhost:8081
+  num-of-partitions: 3 # Jumlah partisi
+  replication-factor: 3 # Jumlah replikasi dari setiap partisi
+
+kafka-producer-config:
+  key-serializer-class: org.apache.kafka.common.serialization.StringSerializer # KARENA KEY UUID
+  value-serializer-class: io.confluent.kafka.serializers.KafkaAvroSerializer # DIAMBIL DARI AVRO MODELS
+  compression-type: snappy
+  acks: all # WILL WAIT ACKNOWLEDGEMENT FROM EACH BROKER BEFORE CONFIRMING PRODUCE OPERATION, KEEP SYSTEM RESILIENT
+  batch-size: 16384
+  batch-size-boost-factor: 100
+  linger-ms: 5 # PRODUCER DELAY, SUPAYA JIKA BEBAN MASIH BELUM SAMPAI BATCH SIZE, AKAN DITUNGGU SELAMA 5ms HINGGA MENDAPATKAN BEBAN YANG BARU
+  request-timeout-ms: 60000 # TIMEOUT
+  retry-count: 5 # RETRY COUNT, RETRY 5 TIMES IN CASE OF ERROR ON THE PRODUCER SIDE
+
+kafka-consumer-config:
+  key-deserializer: org.apache.kafka.common.serialization.StringDeserializer # KARENA KEY BERUPA UUID
+  value-deserializer: io.confluent.kafka.serializers.KafkaAvroDeserializer # Digunakan untuk deserialized key
+  restaurant-approval-consumer-group-id: restaurant-approval-topic-consumer # Consumer group kedua, untuk case komunikasi order dan restaurant
+  auto-offset-reset: earliest # Membaca data dari awal partisi, jika di set latest maka offset akan di-reset ke records terakhir, jika ingin membaca data dari awal, harus restart server
+  specific-avro-reader-key: specific.avro.reader
+  specific-avro-reader: true
+  batch-listener: true # consume the data in batches, instead of one by one
+  auto-startup: true # kafka listener start automatically
+  concurrency-level: 3 # multiple threat, maximum concurrency = number of partition
+  session-timeout-ms: 10000
+  heartbeat-interval-ms: 3000 # setiap 3s, kirim heartbeat signal kepada broker dari consumer
+  max-poll-interval-ms: 300000 # max user threat
+  max-poll-records: 500 # maximum record untuk setiap poll
+  max-partition-fetch-bytes-default: 1048576 # maximum bytes
+  max-partition-fetch-bytes-boost-factor: 1 # boost maximum fetch bytes default
+  poll-timeout-ms: 150 # maksimum menunggu apakah data ada atau tidak ketika data di-fetch, bersifat blocking
