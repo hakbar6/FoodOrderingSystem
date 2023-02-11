@@ -39,6 +39,10 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.food.ordering.system</groupId>
+            <artifactId>saga</artifactId>
+        </dependency>
 <!--        <dependency>-->
 <!--            <groupId>com.google.code.gson</groupId>-->
 <!--            <artifactId>gson</artifactId>-->

@@ -3,7 +3,7 @@ package com.food.ordering.system.order.service.domain.handler;
 import com.food.ordering.system.order.service.domain.dto.request.CreateOrderRequest;
 import com.food.ordering.system.order.service.domain.dto.request.CreateOrderResponse;
 import com.food.ordering.system.order.service.domain.event.OrderCreatedEvent;
-import com.food.ordering.system.order.service.domain.handler.helper.OrderHelper;
+import com.food.ordering.system.order.service.domain.helper.OrderHelper;
 import com.food.ordering.system.order.service.domain.mapper.OrderDataMapper;
 import com.food.ordering.system.order.service.domain.ports.output.message.publisher.payment.OrderCreatedPaymentRequestMessagePublisher;
 import lombok.extern.slf4j.Slf4j;
@@ -30,6 +30,6 @@ public class OrderHandler {
         OrderCreatedEvent result = orderHelper.persistOrder(request);
         log.info("Success Create Order with Order ID {}",result.getOrder().getId().getValue());
         createdPaymentRequestMessagePublisher.publish(result);
-        return mapper.orderEntityToCreateOrderResponse(result.getOrder(),"SUCCESS");
+        return mapper.orderDomainEntityToCreateOrderResponse(result.getOrder(),"SUCCESS");
     }
 }

@@ -155,7 +155,7 @@ public class OrderApplicationServiceImplTest {
                 .products(products)
                 .build();
 
-        Order order = orderDataMapper.createOrderRequestToOrderEntity(createOrderRequest);
+        Order order = orderDataMapper.createOrderRequestToOrderDomainEntity(createOrderRequest);
         order.setId(new OrderID(ORDER_ID));
 
         Mockito.when(customerRepository.findCustomerById(CUSTOMER_ID)).thenReturn(Optional.of(customer));

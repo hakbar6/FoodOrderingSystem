@@ -60,6 +60,8 @@ class OrderDomainServiceImpl implements OrderDomainService{
     @Override
     public OrderCancelledEvent cancellingOrderPayment(Order order, List<String> failureMessages) {
         // digunakan untuk inisialisasi cancel order JIKA order ditolak oleh restaurant
+        // method ini akan dipanggil untuk menerbitkan event order cancelled event yang kemudian akan
+        // memicu payment service untuk membatalkan pembayaran yang telah dilakukan
         order.initCancel(failureMessages);
         log.info("Cancelling order with ID  : {}",order.getId().getValue());
         return new OrderCancelledEvent(order,ZonedDateTime.now(ZoneId.of(UTC)));

@@ -38,17 +38,17 @@ public class OrderDataMapper {
                 .build();
     }
 
-    public Order createOrderRequestToOrderEntity(CreateOrderRequest request) {
+    public Order createOrderRequestToOrderDomainEntity(CreateOrderRequest request) {
         return Order.builder()
                 .customerId(new CustomerID(request.getCustomerId()))
                 .restaurantID(new RestaurantID(request.getRestaurantId()))
-                .deliveryAddress(addressRequestToAddressEntity(request.getAddress()))
+                .deliveryAddress(addressRequestToAddressDomainEntity(request.getAddress()))
                 .price(new Money(request.getPrice()))
-                .items(orderItemRequestToOrderItemEntity(request.getItems()))
+                .items(orderItemRequestToOrderItemDomainEntity(request.getItems()))
                 .build();
     }
 
-    public CreateOrderResponse orderEntityToCreateOrderResponse(Order order, String message) {
+    public CreateOrderResponse orderDomainEntityToCreateOrderResponse(Order order, String message) {
         return CreateOrderResponse.builder()
                 .trackingId(order.getTrackingId().getValue())
                 .orderStatus(order.getOrderStatus())
@@ -56,7 +56,7 @@ public class OrderDataMapper {
                 .build();
     }
 
-    public TrackOrderResponse orderEntityToTrackOrderResponse(Order order) {
+    public TrackOrderResponse orderDomainEntityToTrackOrderResponse(Order order) {
         return TrackOrderResponse.builder()
                 .orderTrackingId(order.getTrackingId().getValue())
                 .orderStatus(order.getOrderStatus())
@@ -64,7 +64,7 @@ public class OrderDataMapper {
                 .build();
     }
 
-    private List<OrderItem> orderItemRequestToOrderItemEntity(List<OrderItemRequest> items) {
+    private List<OrderItem> orderItemRequestToOrderItemDomainEntity(List<OrderItemRequest> items) {
         return items.stream().map(
                 item -> OrderItem.builder()
                         .product(new Product(new ProductID(item.getProductId()),null,null))
@@ -75,7 +75,7 @@ public class OrderDataMapper {
         ).collect(Collectors.toList());
     }
 
-    private StreetAddress addressRequestToAddressEntity(OrderAddress address) {
+    private StreetAddress addressRequestToAddressDomainEntity(OrderAddress address) {
         return new StreetAddress(
                 UUID.randomUUID(),
                 address.getStreet(),

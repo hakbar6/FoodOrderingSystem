@@ -36,6 +36,6 @@ public class TrackHandler {
             log.warn("Could not found order with Tracking ID : {}",query.getOrderTrackingID());
             throw new OrderNotFoundException("Could not found order with Tracking ID : " + query.getOrderTrackingID());
         }
-        return mapper.orderEntityToTrackOrderResponse(result.get());
+        return mapper.orderDomainEntityToTrackOrderResponse(result.get());
     }
 }

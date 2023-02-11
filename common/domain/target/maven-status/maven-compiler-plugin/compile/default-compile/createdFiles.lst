@@ -8,6 +8,7 @@ com/food/ordering/system/domain/eventdomain/publisher/DomainEventPublisher.class
 com/food/ordering/system/domain/entity/AggregateRoot.class
 com/food/ordering/system/domain/entity/BaseEntity.class
 com/food/ordering/system/domain/eventdomain/DomainEvent.class
+com/food/ordering/system/domain/eventdomain/EmptyEvent.class
 com/food/ordering/system/domain/valueobject/OrderApprovalStatus.class
 com/food/ordering/system/domain/valueobject/RestaurantID.class
 com/food/ordering/system/domain/valueobject/PaymentOrderStatus.class
