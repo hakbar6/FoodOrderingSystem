@@ -10,6 +10,7 @@ import com.food.ordering.system.saga.SagaStep;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 /*
  jika respon restaurant sukses, maka proses dan tidak mengembalikan event apapun
@@ -31,6 +32,7 @@ public class OrderApprovalSaga implements SagaStep<RestaurantApprovalResponse, E
     }
 
     @Override
+    @Transactional
     public EmptyEvent process(RestaurantApprovalResponse data) {
         log.info("Approving order with ID : {} ", data.getOrderId());
         Order order = orderSagaHelper.findOrder(data.getOrderId());
@@ -41,6 +43,7 @@ public class OrderApprovalSaga implements SagaStep<RestaurantApprovalResponse, E
     }
 
     @Override
+    @Transactional
     public OrderCancelledEvent rollback(RestaurantApprovalResponse data) {
         log.info("Cancelling order with ID : {} ",data.getOrderId());
         Order order = orderSagaHelper.findOrder(data.getOrderId());

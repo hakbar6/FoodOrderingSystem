@@ -24,7 +24,7 @@ public class Restaurant extends AggregateRoot<RestaurantID> {
                     if (!product.isAvailable()) {
                         failureMessages.add("Product with id " + product.getId().getValue() + " is not available");
                     }
-                    return product.getPrice();
+                    return product.getPrice().multiply(product.getQuantity());
                 }).reduce(Money.ZERO,Money::add);
 
         if (!totalAmount.equals(orderDetail.getTotalAmount())) {

@@ -74,6 +74,6 @@ public class OrderHelper {
         if (output == null) {
             throw new OrderDomainException("Could not save order!");
         }
-        log.info("Order with ID {} saved!",output.getId()) ;
+        log.info("Order with ID {} saved!",output.getId().getValue()) ;
     }
 }

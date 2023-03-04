@@ -29,8 +29,7 @@ public class Order extends AggregateRoot<OrderID> {
         initializeOrderItems();
     }
 
-    private void initializeOrderItems() {
-        // fungsi untuk inisialisasi order items
+    private void initializeOrderItems() { // fungsi untuk inisialisasi order items
         long itemId = 1;
         for (OrderItem orderItem: items) {
             orderItem.initializeOrderItem(getId(), new OrderItemId(itemId++));
@@ -50,15 +49,13 @@ public class Order extends AggregateRoot<OrderID> {
         }
     }
 
-    private void validateTotalPrice() {
-        // digunakan untuk mengecek apakah total harga seluruh item tidak null/valid
+    private void validateTotalPrice() { // digunakan untuk mengecek apakah total harga seluruh item tidak null/valid
         if (this.price == null || !this.price.isGreaterThanZero()) {
             throw new OrderDomainException("Total price must be greater than zero");
         }
     }
 
-    private void validateItemsPrice() {
-        // validate jumlah harga yang tercantum dengan jumlah seluruh order item
+    private void validateItemsPrice() { // validate jumlah harga yang tercantum dengan jumlah seluruh order item
         Money subTotalItem = items.stream().map(orderItem -> {
             validateItemPrice(orderItem);
             return orderItem.getSubTotal();
@@ -101,7 +98,7 @@ public class Order extends AggregateRoot<OrderID> {
     }
 
     public void cancel(List<String> failureMessage) { // pesanan dibatalkan
-        if (orderStatus != OrderStatus.PENDING && orderStatus != OrderStatus.PAID) {
+        if (orderStatus != OrderStatus.CANCELLING) {
             throw new OrderDomainException("Order is not in correct state for cancel operation!");
         }
         addFailureMessage(failureMessage);

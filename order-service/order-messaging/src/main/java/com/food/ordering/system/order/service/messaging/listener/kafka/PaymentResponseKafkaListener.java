@@ -49,7 +49,7 @@ public class PaymentResponseKafkaListener implements KafkaConsumer<PaymentRespon
                         .paymentResponseAvroModelToPaymentResponse(paymentResponseAvroModel));
             } else if (PaymentStatus.CANCELLED == paymentResponseAvroModel.getPaymentStatus() ||
                     PaymentStatus.FAILED == paymentResponseAvroModel.getPaymentStatus()) {
-                log.info("Processing unsuccessful payment for order id: {}", paymentResponseAvroModel.getOrderId());
+                log.info("Processing unsuccessful or cancelled payment for order id: {}", paymentResponseAvroModel.getOrderId());
                 paymentResponseMessageListener.paymentCancelled(messagingDataMapper
                         .paymentResponseAvroModelToPaymentResponse(paymentResponseAvroModel));
             }

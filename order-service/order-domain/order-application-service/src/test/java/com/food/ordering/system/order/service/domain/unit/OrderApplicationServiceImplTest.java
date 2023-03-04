@@ -5,7 +5,7 @@ import com.food.ordering.system.domain.valueobject.*;
 import com.food.ordering.system.order.service.domain.OrderDomainService;
 import com.food.ordering.system.order.service.domain.OrderTestConfiguration;
 import com.food.ordering.system.order.service.domain.dto.request.CreateOrderRequest;
-import com.food.ordering.system.order.service.domain.dto.request.CreateOrderResponse;
+import com.food.ordering.system.order.service.domain.dto.response.CreateOrderResponse;
 import com.food.ordering.system.order.service.domain.dto.request.OrderAddress;
 import com.food.ordering.system.order.service.domain.dto.request.OrderItemRequest;
 import com.food.ordering.system.order.service.domain.entity.customerAggregate.Customer;

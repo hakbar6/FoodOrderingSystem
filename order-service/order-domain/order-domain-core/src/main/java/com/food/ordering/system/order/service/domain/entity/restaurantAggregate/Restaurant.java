@@ -11,7 +11,7 @@ import java.util.Map;
 public class Restaurant extends AggregateRoot<RestaurantID> {
     private final Map<ProductID, Product> products;
 
-    private boolean active;
+    private final boolean active;
 
     private Restaurant(Builder builder) {
         super.setId(builder.restaurantID);
